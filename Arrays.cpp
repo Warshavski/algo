@@ -949,6 +949,8 @@ int SetSearchValue()
 typedef bool searchFunc(int*, int, int, int);
 void Search(int *arr, int size)
 {
+	clock_t time = clock(); // начальное время
+			
 	const int varQnt = 1;
 	searchFunc *search[varQnt] = {BinarySearch};
 	int key = -1;
@@ -963,6 +965,8 @@ void Search(int *arr, int size)
 		if (key == 1)
 		{
 			cout << "Result : " << search[key-1](arr, SetSearchValue(), 0, size) << endl;
+			time = clock() - time; // конечное время
+			cout << (double)time/CLOCKS_PER_SEC << endl;
 			key = 0;
 		}
 		else
