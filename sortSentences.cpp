@@ -27,7 +27,7 @@ char **readFromFile(char path[])
 	int i = 0;
 	while(!sentencesFile.eof())
 	{
-		sentencesArr[i] = new char[255];
+		sentencesArr[i] = new char[BUFF_SIZE];
 		sentencesFile.getline(sentencesArr[i], BUFF_SIZE);
 	
 		++i;
@@ -53,7 +53,7 @@ char *selectFistWord(char *sentence)
 //#WTF how to delete temp array?
 char *selectFirstWord(char *row)
 {
-	char *buff = new char[255];
+	char *buff = new char[BUFF_SIZE];
 	strcpy(buff, row);
 	
 	char *pch = strtok(buff, " ");
@@ -66,7 +66,7 @@ char *selectFirstWord(char *row)
 
 void swapElements(char *element1, char *element2)
 {
-	char *buff = new char[255];
+	char *buff = new char[BUFF_SIZE];
 	strcpy(buff, element1);
 	strcpy(element1, element2);
 	strcpy(element2, buff);
