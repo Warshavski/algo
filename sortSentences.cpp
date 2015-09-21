@@ -56,12 +56,8 @@ char *selectFirstWord(char *row)
 	strcpy(buff, row);
 	
 	char *pch = strtok(buff, " ");
-	while (pch != NULL)
-	{
-		delete [] buff;
-		return pch;
-	}
-	return NULL;
+	delete [] buff;
+	return pch;
 }
 
 void swapElements(char *element1, char *element2)
