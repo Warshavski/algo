@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <cctype>
-
+#include <string.h>
 
 using namespace std;
 
@@ -33,7 +33,7 @@ char **readFromFile(char path[], int size)
 	ifstream sentencesFile;
 	sentencesFile.open(path);
 	
-	char **sentencesArr = new char*[size];
+	char **sentencesArr = new char*[BUFF_SIZE];
 	
 	int i = 0;
 	while(!sentencesFile.eof())
@@ -50,6 +50,8 @@ char **readFromFile(char path[], int size)
 
 
 //#WTF how to delete temp array?
+// very bad function rewrite
+// copy char by char to buff
 char *selectFirstWord(char *row)
 {
 	char *buff = new char[BUFF_SIZE];
@@ -85,7 +87,7 @@ void sortSentences(char **arr, int size)
 
 int main()
 {
-	const int TEXT_LENGTH = 30;
+	const int TEXT_LENGTH = 20;
 	char **text = readFromFile("test.txt", TEXT_LENGTH);
 	
 	printAllText(text, TEXT_LENGTH);
@@ -93,7 +95,7 @@ int main()
 	sortSentences(text, TEXT_LENGTH);
 	
 	printAllText(text, TEXT_LENGTH);
-	printAllText(text, TEXT_LENGTH, "outputText.txt")
+	printAllText(text, TEXT_LENGTH, "outputText.txt");
 	
 	for (int i = 0; i < TEXT_LENGTH; ++i)
 		delete [] text[i];
