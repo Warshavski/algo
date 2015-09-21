@@ -17,12 +17,23 @@ void printAllText(char **arr, int size)
 	}
 }
 
-char **readFromFile(char path[])
+void printAllText(char **arr, int size, char path[])
+{
+	ofstream outfile;
+	outfile.open(path);
+	
+	for (int i = 0; i < size; ++i)
+		outfile << arr[i] << '\n';
+		
+	outfile.close();
+}
+
+char **readFromFile(char path[], int size)
 {
 	ifstream sentencesFile;
 	sentencesFile.open(path);
 	
-	char **sentencesArr = new char*[BUFF_SIZE];
+	char **sentencesArr = new char*[size];
 	
 	int i = 0;
 	while(!sentencesFile.eof())
@@ -37,18 +48,6 @@ char **readFromFile(char path[])
 	return sentencesArr;
 }
 
-char *selectFistWord(char *sentence)
-{
-	char *word;
-	char *pch = strtok(sentence," ");
-	while (pch != NULL)
-	{
-		word = pch;
-		break;
-	}
-	
-	return buff;
-}
 
 //#WTF how to delete temp array?
 char *selectFirstWord(char *row)
@@ -59,6 +58,7 @@ char *selectFirstWord(char *row)
 	char *pch = strtok(buff, " ");
 	while (pch != NULL)
 	{
+		delete [] buff;
 		return pch;
 	}
 	return NULL;
@@ -90,14 +90,17 @@ void sortSentences(char **arr, int size)
 int main()
 {
 	const int TEXT_LENGTH = 30;
-	char **text = readFromFile("test.txt");
-	printAllText(text, TEXT_LENGTH);
-	sortSentences(text, TEXT_LENGTH);
+	char **text = readFromFile("test.txt", TEXT_LENGTH);
+	
 	printAllText(text, TEXT_LENGTH);
 	
+	sortSentences(text, TEXT_LENGTH);
+	
+	printAllText(text, TEXT_LENGTH);
+	printAllText(text, TEXT_LENGTH, "outputText.txt")
+	
 	for (int i = 0; i < TEXT_LENGTH; ++i)
-	{
 		delete [] text[i];
-	}
+	
 	return 0;
 }
