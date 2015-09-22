@@ -6,60 +6,99 @@
 
 using namespace std;
 
+/* TODO : 
+ *		1. Add realization on list.
+ *      2. Check memory use
+ */
+
 const int BUFF_SIZE = 255;
 
-void printAllText(char **arr, int size)
+void printAllText(char **text, int size)
 {
 	for (int i = 0; i < size; ++i)
 	{
-		cout << i << " "  << arr[i];	
+		cout << i << " "  << text[i];	
 		cout << endl;		
 	}
+	cout << endl;
 }
 
-void printAllText(char **arr, int size, char path[])
+void printAllText(char **text, int size, char path[])
 {
 	ofstream outfile;
 	outfile.open(path);
 	
 	for (int i = 0; i < size; ++i)
-		outfile << arr[i] << '\n';
+		outfile << i << " " << text[i] << '\n';
 		
 	outfile.close();
 }
 
-char **readFromFile(char path[], int size)
+// yeap not good (better use list)
+char **compressArray(char **array, int compressedSize, int currentSize)
 {
-	ifstream sentencesFile;
-	sentencesFile.open(path);
+	char **compressedArray = new char*[compressedSize];
 	
-	char **sentencesArr = new char*[BUFF_SIZE];
-	
-	int i = 0;
-	while(!sentencesFile.eof())
+	for (int i = 0; i < compressedSize; ++i)
 	{
-		sentencesArr[i] = new char[BUFF_SIZE];
-		sentencesFile.getline(sentencesArr[i], BUFF_SIZE);
-	
-		++i;
+		compressedArray[i] = new char[BUFF_SIZE];
+		strcpy(compressedArray[i], array[i]);
 	}
-	sentencesFile.close();
+	
+	for (int i = 0; i < currentSize; ++i)
+		delete [] array[i];	
+		
+	return compressedArray;
+}
 
-	return sentencesArr;
+char **readFromFile(char path[], int &sentencesCount)
+{
+	ifstream textFile;
+	textFile.open(path);
+	
+	char **sentences = new char*[BUFF_SIZE];
+	
+	sentencesCount = 0;
+	while (!textFile.eof())
+	{
+		sentences[sentencesCount] = new char[BUFF_SIZE];
+		textFile.getline(sentences[sentencesCount], BUFF_SIZE);
+		
+		++sentencesCount;
+	}
+	
+	char **copressedSentences = compressArray(sentences, sentencesCount, BUFF_SIZE);
+	sentences = NULL;
+	
+	textFile.close();
+
+	return copressedSentences;
 }
 
 
-//#WTF how to delete temp array?
-// very bad function rewrite
-// copy char by char to buff
-char *selectFirstWord(char *row)
+/* select first word from sentence
+ * TODO : add array of the separators
+ */
+char *selectFirstWord(char *sentence)
 {
+	char *word = new char[BUFF_SIZE];
+	
+	for (int i = 0; i < BUFF_SIZE; ++i)
+	{
+		if (sentence[i] == ' ')
+			break;
+		word[i] = sentence[i];
+	}
+	
+	return word;
+	/*
 	char *buff = new char[BUFF_SIZE];
 	strcpy(buff, row);
 	
 	char *pch = strtok(buff, " ");
 	delete [] buff;
 	return pch;
+	*/
 }
 
 void swapElements(char *element1, char *element2)
@@ -72,6 +111,7 @@ void swapElements(char *element1, char *element2)
 	delete [] buff;
 }
 
+// not goods sorting (too slow)
 void sortSentences(char **arr, int size)
 {
 	for (int i = 0; i < size - 1; ++i)
@@ -87,17 +127,19 @@ void sortSentences(char **arr, int size)
 
 int main()
 {
-	const int TEXT_LENGTH = 20;
-	char **text = readFromFile("test.txt", TEXT_LENGTH);
+	int sentencesCount = 0;
+	char **text = readFromFile("test.txt", sentencesCount);
 	
-	printAllText(text, TEXT_LENGTH);
+	cout << "Unsorted text : " << endl;
+	printAllText(text, sentencesCount);
 	
-	sortSentences(text, TEXT_LENGTH);
+	sortSentences(text, sentencesCount);
 	
-	printAllText(text, TEXT_LENGTH);
-	printAllText(text, TEXT_LENGTH, "outputText.txt");
+	cout << "Sorted text : " << endl;
+	printAllText(text, sentencesCount);
+	printAllText(text, sentencesCount, "outputText.txt");
 	
-	for (int i = 0; i < TEXT_LENGTH; ++i)
+	for (int i = 0; i < sentencesCount; ++i)
 		delete [] text[i];
 	
 	return 0;
