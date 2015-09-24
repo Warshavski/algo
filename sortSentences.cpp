@@ -279,13 +279,15 @@ sentence *createSentencesArray(char *text, int &out_sentencesCount)
 	{
 		if (endOfSentence(text[i]))
 		{
-			++i;
 			tempArray[out_sentencesCount].startPosition = position;
-			tempArray[out_sentencesCount].lenght = i - position;
+			tempArray[out_sentencesCount].lenght = i - position + 1;
 			++out_sentencesCount;	
 	
-			while (text[i] != END_OF_TEXT && (text[i] == '\n' || text[i] == ' '))
+			do 
 				++i;
+			while (text[i] != END_OF_TEXT && (text[i] == '\n' || text[i] == ' '));
+			
+			
 			position = i;
 		}
 	}
@@ -333,8 +335,8 @@ int main()
 	
 	char *text = readFromFile("test2.txt");
 	
-	cout << "Unsorted text : " << endl;
-	printAllText(text);
+	//cout << "Unsorted text : " << endl;
+	//printAllText(text);
 	
 	cout << '\n' << endl;
 	sentence *arr = createSentencesArray(text, sentencesCount);
