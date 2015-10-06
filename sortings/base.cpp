@@ -45,7 +45,7 @@ void printArray(int *arr, const int size)
 
 
 
-//#PRIMITIVE_SORTINGS_START
+//#SIMPLE_SORTINGS_START
 
 
 //#BUBBLE_SORT
@@ -130,7 +130,7 @@ void shellSort(int *arr, const int size)
 }
 
 
-//#PRIMITIVE_SORTINGS_END
+//#SIMPLE_SORTINGS_END
 
 
 
