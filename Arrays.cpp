@@ -265,8 +265,6 @@ void SaveToFile(student *arr, int size, char *path)
 }
 */
 
-
-
 int *CreateArray(int size, int valueRange)
 {
 	int *arr = new int[size];
@@ -295,7 +293,7 @@ int *CreateArray(int &size, char *path)
 void DeleteArray(int *arr)
 {
 	delete [] arr;
-	arr = 0;
+	arr = NULL;
 }
 
 void ResetArray(int *arr, int size, int valueRange)
@@ -308,6 +306,17 @@ void PrintArray(int *arr, int size)
 {
 	for (int i = 0; i < size; ++i)
 		cout << arr[i] << " ";
+	cout << endl;
+}
+
+void PrintArray(int **arr, int rows, int cols)
+{
+	for (int i = 0; i < rows; ++i)
+	{
+		for (int j = 0; j < cols; ++j)
+			cout << arr[i][j] << " ";
+		cout << endl;
+	}
 	cout << endl;
 }
 

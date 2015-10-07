@@ -8,6 +8,8 @@
 
 using namespace std;
 
+
+
 ///#SORTINGS_START
 
 
@@ -23,12 +25,12 @@ void swapElements(int *element1, int *element2)
 
 int *createArray(const int size, const int valueRange)
 {
-	int *array = new int[size];
+	int *arr = new int[size];
 	
 	for (int i = 0; i < size; ++i)
-		array[i] = (int)rand() % valueRange;
+		arr[i] = (int)rand() % valueRange;
 		
-	return array;
+	return arr;
 }
 
 void printArray(int *arr, const int size)
@@ -38,6 +40,11 @@ void printArray(int *arr, const int size)
 	cout << endl;
 }
 
+void resetArray(int *arr, const int size, const int valueRange)
+{
+	for (int i = 0; i < size; ++i)
+		arr[i] = (int)rand() % valueRange;
+}
 
 //#COMMON_END
 
@@ -136,10 +143,13 @@ void shellSort(int *arr, const int size)
 
 ///#SORTINGS_END
 
+
+
 int main()
 {
 	const int ARRAY_SIZE = 100;
 	const int VALUE_RANGE = 100;
+	const int KEY = 100;
 	
 	int *testArray = createArray(ARRAY_SIZE, VALUE_RANGE);
 	
@@ -150,7 +160,10 @@ int main()
 	 * bubbleSort(testArray, ARRAY_SIZE);
 	 * selectionSort(testArray, ARRAY_SIZE);
 	 * insertionSort(testArray, ARRAY_SIZE);
-	 */ shakerSort(testArray, ARRAY_SIZE);
+	 * shakerSort(testArray, ARRAY_SIZE);
+	 */
+	 
+	 
 	 
 	
 	printArray(testArray, ARRAY_SIZE);
