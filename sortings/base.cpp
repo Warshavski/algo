@@ -141,6 +141,75 @@ void shellSort(int *arr, const int size)
 
 
 
+
+
+//#MERGE_SORTING_START
+
+
+//#MERGE_FUNCTION
+int *merge(int *aArr, int aSize, int *bArr, int bSize)
+{
+	int *resultArr = new int[aSize + bSize];
+	int index = 0;
+	
+	while (aSize && bSize)
+	{
+		if (*aArr < *bArr)
+		{
+			resultArr[index] = *aArr;
+			++aArr;
+			--aSize;
+		}
+		else
+		{
+			resultArr[index] = *bArr;
+			++bArr;
+			--bSize;
+		}
+		
+		++index;
+	}
+	
+	if (bSize == 0)
+		for (; aSize != 0; --aSize, ++aArr, ++index)
+			resultArr[index] = *aArr;
+	else if (aSize == 0)
+		for (; bSize != 0; --bSize, ++bArr, ++index)
+			resultArr[index] = *bArr;
+	
+	return resultArr;
+}
+
+//#MERGE_SORTING_ITER
+void mergeSort(int *arr, const int size)
+{
+	int n = 1;
+	
+	while (n < size)
+	{
+		int l = 0;
+		while (l < size)
+		{
+			if (l + n >= size) 
+				break;
+				
+			int ost = (l + n * 2 > size) ? (size - (l + n)) : n;
+			int *tempArr = Merge(arr + l, n, arr + l + n, ost);
+			
+			for (int i = 0; i < n + ost; i++) 
+				arr[l+i] = tempArr[i];
+				
+			delete [] tempArr;
+			
+			l += n * 2;
+		}
+		n *= 2;
+	}
+}
+
+//#MERGE_SORTING_END
+
+
 ///#SORTINGS_END
 
 
