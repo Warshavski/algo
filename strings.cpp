@@ -1,5 +1,12 @@
-#include "stdafx.h"
-#include "sorting.h"
+#include <stdio.h>
+#include <tchar.h>
+#include <stdlib.h>
+#include <math.h>
+#include <iostream>
+#include <vector>
+
+//#include "stdafx.h"
+//#include "sorting.h"
 
 using namespace std;
 
@@ -155,6 +162,7 @@ vector<int> prefix_function(string s)
 {
 	int n = (int)s.length();
 	vector<int> pi(n);
+	
 	for (int i = 1; i < n; ++i)
 	{
 		int j = pi[i-1];
@@ -301,9 +309,153 @@ void SpaceCount(char str[])
 }
 
 
+void reverseString(char *strStart)
+{
+	char *strEnd = strStart;
+	
+	while( strEnd && *strEnd)
+		++strEnd;
+	
+	for (--strEnd; strStart < strEnd; ++strStart, --strEnd)
+	{
+		*strStart ^= *strEnd;
+		*strEnd ^= *strStart;
+		*strStart ^= *strEnd;
+	}
+}
 
+void reverseString(char str[], const int lenght)
+{
+	for (int i = 0, j = lenght - 1; i < lenght / 2 ; ++i, --j)
+	{
+		int bufferValue = str[i];
+		str[i] = str[j];
+		str[j] = bufferValue;
+	}
+}
 
+void substringSearch(char str[], char subStr[])
+{
+	for (int i = 0; str[i] != '\0'; ++i)
+	{
+		
+	}	
+}
 
+void substringSearch(char str[], const int strSize,
+	char sub[], const int subSize)
+{
+	bool isFound = false;
+	
+	for (int i = 0; i < strSize - subSize; ++i)
+	{
+		int j = 0;
+		while (j < subSize && str[i+j] == sub[j])
+			++j;
+		
+		if (j == subSize)
+		{
+			isFound = true;
+			cout << "Sub found on index : " << i << endl;
+		}
+	}
+	
+	if (!isFound)
+		cout << "Sub not found" << endl;
+	
+}
+
+int calcLenght(char str[])
+{
+	int i = 0;
+	while (str[i] != '\0')
+		++i;
+	return i;
+}
+
+void prefix(char str[])
+{
+	int size = calcLenght(str);
+	int *pref = new int[size];
+	
+	for (int i = 0; i < size; ++i)
+		pref[i] = 0;	
+	
+	for (int i = 1; i < size; ++i)
+	{
+		int j = pref[i-1];
+		while (j > 0 && str[i] != str[j])
+			j = pref[j-1];
+		if (str[i] == str[j])
+			++j;
+		pref[i] = j;
+	}
+	
+	for (int i = 0; i < size; ++i)
+		cout << pref[i] << " ";
+	cout << endl;
+	
+	delete [] pref;
+}
+
+bool isEqualStr(char str1[], char str2[])
+{
+	for (int i = 0; str1[i] == str2[i] != 0; ++i)
+		if (str1[i] == 0)
+			return true;
+			
+	return false;
+}
+
+void searchString(char strSequence[], char strKey[])
+{
+	int sequenceLenght = calcLenght(strSequence);
+	int keyLenght = calcLenght(strKey);
+	
+	bool isFound = false;
+	
+	for (int j = 0, i = 0; j < keyLenght && i < sequenceLenght; ++j, ++i)
+	{
+		if (strSequence[i] != strKey[j])
+		{
+			j = 0;
+			while (strSequence[i] != ' ')
+				++i;
+		}
+		
+		if (j == keyLenght - 1 && strSequence[i + 1] == ' ')
+		{
+			isFound = true;
+			cout << "string found!" << endl;
+		}
+	}
+	
+	if (!isFound)
+		cout << "string not found" << endl;
+}
+
+int main()
+{
+	char str[] = "word or not a word, just some very long sentence";
+	char subStr[] = "or";
+	char pref_str[] = "abcabcd";
+	
+	cout << str << endl;
+	
+	//reverseString(str);
+	//cout << str << endl;
+	substringSearch(str,subStr);
+	cout << '\n' << endl;
+	
+	prefix(pref_str);
+	
+	searchString(str, subStr);
+	/*
+	substringSearch(str, calcLenght(str), 
+		subStr, calcLenght(subStr));
+	*/
+	return 0;
+}
 
 
 
